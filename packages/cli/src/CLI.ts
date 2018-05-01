@@ -8,7 +8,7 @@
 import path from 'path';
 import chalk from 'chalk';
 import semver from 'semver';
-import app from 'yargs';
+import yargs from 'yargs';
 import Beemo, { Driver } from '@beemo/core';
 // @ts-ignore
 import corePackage from '../../core/package.json';
@@ -32,7 +32,7 @@ if (!semver.satisfies(cliPackage.version, `^${corePackage.version}`)) {
 // Initialize
 // 0 node, 1 beemo, 2 <driver, command>
 const beemo = new Beemo(process.argv.slice(3));
-// const app = yargs(process.argv.slice(2));
+const app = yargs(process.argv.slice(2));
 
 // Bootstrap the module
 beemo.bootstrapConfigModule();
@@ -54,55 +54,55 @@ app.command(
   args => beemo.executeScript(args.name),
 );
 
-app.command(
-  ['sync-dotfiles', 'sync'],
-  'Sync dotfiles from configuration module',
-  {
-    filter: {
-      alias: 'f',
-      default: '',
-      description: 'Filter filenames using a regex pattern',
-      string: true,
-    },
-  },
-  args => beemo.syncDotfiles(args.filter),
-);
+// app.command(
+//   ['sync-dotfiles', 'sync'],
+//   'Sync dotfiles from configuration module',
+//   {
+//     filter: {
+//       alias: 'f',
+//       default: '',
+//       description: 'Filter filenames using a regex pattern',
+//       string: true,
+//     },
+//   },
+//   args => beemo.syncDotfiles(args.filter),
+// );
 
-app.command('*', false, {}, () => {
-  console.error(chalk.red('Please select a command!'));
-});
+// app.command('*', false, {}, () => {
+//   console.error(chalk.red('Please select a command!'));
+// });
 
 // Add Beemo options
-app
-  .option('debug', {
-    boolean: true,
-    default: false,
-    describe: 'Show debug messages',
-  })
-  .option('silent', {
-    boolean: true,
-    default: false,
-    describe: `Hide ${binName} output`,
-  })
-  .option('verbose', {
-    alias: 'v',
-    count: true,
-    default: 0,
-    describe: 'Increase information in the output',
-  });
+// app
+// .option('debug', {
+//   boolean: true,
+//   default: false,
+//   describe: 'Show debug messages',
+// })
+// .option('silent', {
+//   boolean: true,
+//   default: false,
+//   describe: `Hide ${binName} output`,
+// })
+// .option('verbose', {
+//   alias: 'v',
+//   count: true,
+//   default: 0,
+//   describe: 'Increase information in the output',
+// });
 
 // Run application
 // eslint-disable-next-line
-app
-  .usage(`${binName} <command> [args..]`)
-  .epilogue(
-    chalk.gray(
-      [
-        `For more information, view the manual: ${manualURL}`,
-        `Powered by Beemo v${corePackage.version}`,
-      ].join('\n'),
-    ),
-  )
-  .demandCommand(1, chalk.red('Please select a command!'))
-  .showHelpOnFail(true)
-  .help().argv;
+// app
+//   .usage(`${binName} <command> [args..]`)
+//   .epilogue(
+//     chalk.gray(
+//       [
+//         `For more information, view the manual: ${manualURL}`,
+//         `Powered by Beemo v${corePackage.version}`,
+//       ].join('\n'),
+//     ),
+//   )
+// .demandCommand(1, chalk.red('Please select a command!'))
+// .showHelpOnFail(true)
+// .help().argv;
